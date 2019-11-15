@@ -13,14 +13,14 @@ CREATE TABLE plano_de_saude(
 );
 
 CREATE TABLE mae(
-	mae_cpf bigint PRIMARY KEY,
+	mae_cpf varchar(11) PRIMARY KEY,
 	mae_forma_pagamento varchar(30) NOT NULL,
 	mae_nome varchar(50) NOT NULL, 
 	mae_data_nascimento date NOT NULL,
 	mae_telefone varchar(19) NOT NULL,
 	mae_endereco_rua varchar(80) NOT NULL,
 	mae_endereco_cep varchar(8) NOT NULL,
-	mae_endereco_numero integer NOT NULL,
+	mae_endereco_numero varchar(15) NOT NULL,
     mae_plano_de_saude varchar(30),
 
     FOREIGN KEY(mae_plano_de_saude) REFERENCES plano_de_saude(plano_de_saude_nome)
@@ -29,14 +29,14 @@ CREATE TABLE mae(
 );
 
 CREATE TABLE medico(
-    medico_crm bigint PRIMARY KEY,
-    medico_cpf bigint NOT NULL,
+    medico_crm varchar(14) PRIMARY KEY,
+    medico_cpf varchar(11) NOT NULL,
     medico_nome varchar(50) NOT NULL,
     medico_data_nascimento date NOT NULL,
     medico_telefone varchar(19) NOT NULL,
 	medico_endereco_rua varchar(80) NOT NULL,
     medico_endereco_cep varchar(8) NOT NULL,
-	medico_endereco_numero int NOT NULL
+	medico_endereco_numero varchar(15) NOT NULL
 );
 
 CREATE TABLE timestamp_demo (ts TIMESTAMP, tstz TIMESTAMPTZ);
@@ -49,15 +49,15 @@ CREATE TABLE bebe(
         bebe_genero = 'F'
     ), 
     bebe_hora_nascimento TIMESTAMP NOT NULL,
-    bebe_peso_gramas int NOT NULL,
-    bebe_altura_cm int NOT NULL,
+    bebe_peso_gramas real NOT NULL,
+    bebe_altura_cm real NOT NULL,
     bebe_observacoes text NOT NULL,
     bebe_tipo_parto varchar(8) CHECK(
         bebe_tipo_parto =  'Normal' OR
         bebe_tipo_parto =  'Cesárea'
     ),
-    bebe_mae bigint NOT NULL,
-    bebe_medico bigint NOT NULL,    
+    bebe_mae varchar(11) NOT NULL,
+    bebe_medico varchar(14) NOT NULL,    
 
     FOREIGN KEY (bebe_mae) REFERENCES mae(mae_cpf)
         ON UPDATE CASCADE
@@ -69,7 +69,7 @@ CREATE TABLE bebe(
 );
 
 CREATE TABLE especializacao(
-    especializacao_medico bigint,
+    especializacao_medico varchar(14),
     especializacao_especializacao varchar(20),
 
     PRIMARY KEY(especializacao_medico,especializacao_especializacao),
@@ -80,7 +80,7 @@ CREATE TABLE especializacao(
 );
 
 CREATE TABLE hospedagem(
-    hospedagem_mae  bigint ,
+    hospedagem_mae  varchar(14) ,
     hospedagem_quarto smallint ,
     hospedagem_data_entrada date, 
 
@@ -96,8 +96,8 @@ CREATE TABLE hospedagem(
 );
 
 CREATE TABLE cuida_mae (
-    cuida_mae_cpf bigint,
-    cuida_mae_crm bigint,
+    cuida_mae_cpf varchar(11),
+    cuida_mae_crm varchar(14),
 
     PRIMARY KEY (cuida_mae_cpf,cuida_mae_crm),
 
