@@ -1,20 +1,20 @@
 CREATE DATABASE maternidade;
 
-CREATE TABLE quarto
+CREATE TABLE Quarto
 (
-    quarto_numero smallint PRIMARY KEY CHECK(
-        quarto_numero > 599
-            AND quarto_numero < 700
+    numero_quarto smallint PRIMARY KEY CHECK(
+        numero_quarto > 599
+            AND numero_quarto < 700
     ),
-    quarto_ala varchar(30) NOT NULL
+    ala_quarto varchar(30) NOT NULL
 );
 
-CREATE TABLE plano_de_saude
+CREATE TABLE Plano_de_saude
 (
-    plano_de_saude_nome varchar(30) PRIMARY KEY
+    nome_plano_saude varchar(30) PRIMARY KEY
 );
 
-CREATE TABLE mae
+CREATE TABLE Mae
 (
     mae_cpf varchar(11) PRIMARY KEY,
     mae_forma_pagamento varchar(30) NOT NULL,
@@ -22,25 +22,25 @@ CREATE TABLE mae
     mae_data_nascimento date NOT NULL,
     mae_telefone varchar(19) NOT NULL,
     mae_endereco_rua varchar(80) NOT NULL,
-    mae_endereco_cep varchar(8) NOT NULL,
+    mae_endereco_CEP varchar(8) NOT NULL,
     mae_endereco_numero varchar(15) NOT NULL,
     mae_plano_de_saude varchar(30),
 
-    FOREIGN KEY(mae_plano_de_saude) REFERENCES plano_de_saude(plano_de_saude_nome)
+    FOREIGN KEY(mae_plano_de_saude) REFERENCES plano_de_saude(nome_plano_saude)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
-CREATE TABLE medico
+CREATE TABLE Medico
 (
-    medico_crm varchar(14) PRIMARY KEY,
-    medico_cpf varchar(11) NOT NULL,
-    medico_nome varchar(50) NOT NULL,
-    medico_data_nascimento date NOT NULL,
-    medico_telefone varchar(19) NOT NULL,
-    medico_endereco_rua varchar(80) NOT NULL,
-    medico_endereco_cep varchar(8) NOT NULL,
-    medico_endereco_numero varchar(15) NOT NULL
+    crm varchar(14) PRIMARY KEY,
+    cpf_medico varchar(11) NOT NULL,
+    nome_medico varchar(50) NOT NULL,
+    nascimento_medico date NOT NULL,
+    telefone_medico varchar(19) NOT NULL,
+    rua varchar(80) NOT NULL,
+    CEP varchar(8) NOT NULL,
+    numero varchar(15) NOT NULL
 );
 
 CREATE TABLE timestamp_demo
@@ -51,74 +51,75 @@ CREATE TABLE timestamp_demo
 SET timezone
 = 'America/Sao_Paulo';
 
-CREATE TABLE bebe
+CREATE TABLE Bebe
 (
-    bebe_codigo int PRIMARY KEY,
+    codigo int PRIMARY KEY,
     bebe_genero char(1) NOT NULL CHECK(
         bebe_genero = 'M' OR
             bebe_genero = 'F'
     ),
-    bebe_hora_nascimento TIMESTAMP NOT NULL,
-    bebe_peso_gramas real NOT NULL,
-    bebe_altura_cm real NOT NULL,
+    hora_nascimento TIMESTAMP NOT NULL,
+    bebe_peso real NOT NULL,
+    bebe_altura real NOT NULL,
     bebe_observacoes text NOT NULL,
-    bebe_tipo_parto varchar(8) CHECK(
-        bebe_tipo_parto =  'Normal' OR
-            bebe_tipo_parto =  'Cesárea'
+    tipo_parto varchar(8) CHECK(
+        tipo_parto =  'Normal' OR
+        tipo_parto =  'Cesárea'
     ),
-    bebe_mae varchar(11) NOT NULL,
-    bebe_medico varchar(14) NOT NULL,
+    mae varchar(11) NOT NULL,
+    medico varchar(14) NOT NULL,
 
-    FOREIGN KEY (bebe_mae) REFERENCES mae(mae_cpf)
+    FOREIGN KEY (mae) REFERENCES Mae(mae_cpf)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
 
-    FOREIGN KEY (bebe_medico) REFERENCES medico(medico_crm)
+    FOREIGN KEY (medico) REFERENCES Medico(crm)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
-CREATE TABLE especializacao
+CREATE TABLE Especializacao
 (
-    especializacao_medico varchar(14),
-    especializacao_especializacao varchar(20),
+    crm_medico varchar(14),
+    especializacao varchar(20),
 
-    PRIMARY KEY(especializacao_medico,especializacao_especializacao),
+    PRIMARY KEY(crm_medico,especializacao),
 
-    FOREIGN KEY (especializacao_medico) REFERENCES medico(medico_crm)
+    FOREIGN KEY (crm_medico) REFERENCES Medico(crm)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
-CREATE TABLE hospedagem
+CREATE TABLE Hospedagem
 (
-    hospedagem_mae varchar(14) ,
-    hospedagem_quarto smallint ,
-    hospedagem_data_entrada date,
+    cpf_mae varchar(14) ,
+    numero_quarto smallint ,
+    data_entrada date,
 
-    PRIMARY KEY(hospedagem_mae,hospedagem_quarto, hospedagem_data_entrada),
+    PRIMARY KEY(data_entrada, cpf_mae, numero_quarto),
 
-    FOREIGN KEY (hospedagem_mae) REFERENCES mae(mae_cpf)
+    FOREIGN KEY (cpf_mae) REFERENCES Mae(mae_cpf)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
 
-    FOREIGN KEY(hospedagem_quarto) REFERENCES quarto(quarto_numero)
+    FOREIGN KEY(numero_quarto) REFERENCES Quarto(numero_quarto)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
-CREATE TABLE cuida_mae
+CREATE TABLE Cuida_da_mae
 (
-    cuida_mae_cpf varchar(11),
-    cuida_mae_crm varchar(14),
+    cpf_mae varchar(11),
+    crm_medico varchar(14),
+    data_inicio date,
 
-    PRIMARY KEY (cuida_mae_cpf,cuida_mae_crm),
+    PRIMARY KEY (cpf_mae,crm_medico, data_inicio),
 
-    FOREIGN KEY (cuida_mae_cpf) REFERENCES mae(mae_cpf)
+    FOREIGN KEY (cpf_mae) REFERENCES Mae(mae_cpf)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
 
-    FOREIGN KEY (cuida_mae_crm) REFERENCES medico(medico_crm)
+    FOREIGN KEY (crm_medico) REFERENCES Medico(crm)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );

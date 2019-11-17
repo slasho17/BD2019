@@ -1,26 +1,46 @@
-REQUISITO 1
+--REQUISITO 1
 
-SELECT quarto_numero, quarto_ala
-FROM quarto, hospedagem
-WHERE hospedagem_quarto = quarto_numero AND hospedagem_data_entrada = '12-09-2016'
+SELECT q.numero_quarto, q.ala_quarto
+FROM Quarto q, Hospedagem h
+WHERE q.numero_quarto = h.numero_quarto AND h.data_entrada = <Data entrada>
 
 
-REQUISITO 2
+--REQUISITO 2
 
-SELECT mae_nome, count(bebe)
-From mae, bebe
-WHERE bebe_mae = mae_cpf
-GROUP BY mae_cpf
+SELECT m.mae_nome, count(Bebe)
+From Mae m, Bebe b
+WHERE b.mae = m.mae_cpf
+GROUP BY m.mae_cpf
 
-REQUISITO 3
+--REQUISITO 3
 
-SELECT mae_nome, mae_plano_de_saude
-FROM mae
-WHERE mae_plano_de_saude
+SELECT m.mae_nome, m.mae_plano_de_saude
+FROM Mae m
+WHERE m.mae_plano_de_saude
 NOTNULL
 
-REQUISITO 4
+--REQUISITO 4
 
-SELECT bebe_codigo, medico_nome, medico_crm
-FROM bebe, medico
-WHERE bebe_medico = medico_crm
+SELECT b.codigo, m.nome_medico, m.crm
+FROM bebe b, medico m
+WHERE b.medico = m.crm
+
+--REQUISITO 5
+SELECT b.mae, b.codigo, m.mae_nome 
+FROM Bebe b, Mae m
+WHERE m.mae_cpf = b.mae AND b.medico = <crm>
+
+--REQUISITO 6
+SELECT c.cpf_mae, c.data_inicio, m.mae_nome
+FROM Cuida_da_mae c, Mae m
+WHERE m.mae_cpf = c.cpf_mae AND c.crm_medico = <crm>
+
+--REQUISITO 7
+select count(codigo) from Bebe
+where date(hora_nascimento) = <data>
+
+--REQUISITO 8
+SELECT tipo_parto, COUNT(*)
+FROM Bebe
+WHERE tipo_parto = 'Cesárea'
+GROUP BY tipo_parto
