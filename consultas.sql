@@ -7,15 +7,15 @@ WHERE q.numero_quarto = h.numero_quarto AND h.data_entrada = <Data entrada>
 
 --REQUISITO 2
 
-SELECT m.mae_nome, count(Bebe)
-From Mae m, Bebe b
+SELECT m.mae_nome, count(b)
+From mae m, bebe b
 WHERE b.mae = m.mae_cpf
 GROUP BY m.mae_cpf
 
 --REQUISITO 3
 
 SELECT m.mae_nome, m.mae_plano_de_saude
-FROM Mae m
+FROM mae m
 WHERE m.mae_plano_de_saude
 NOTNULL
 
@@ -26,7 +26,7 @@ FROM bebe b, medico m
 WHERE b.medico = m.crm
 
 --REQUISITO 5
-SELECT b.mae, b.codigo, m.mae_nome 
+SELECT b.mae, b.codigo, m.mae_nome
 FROM Bebe b, Mae m
 WHERE m.mae_cpf = b.mae AND b.medico = <crm>
 
@@ -36,7 +36,8 @@ FROM Cuida_da_mae c, Mae m
 WHERE m.mae_cpf = c.cpf_mae AND c.crm_medico = <crm>
 
 --REQUISITO 7
-select count(codigo) from Bebe
+select count(codigo)
+from Bebe
 where date(hora_nascimento) = <data>
 
 --REQUISITO 8
