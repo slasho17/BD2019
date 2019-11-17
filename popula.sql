@@ -384,7 +384,6 @@ VALUES('13822/SP', '13387659082', 'Julia Amaral', '23-08-1976', '33234567', 'Av.
 INSERT INTO Medico
 VALUES('12157/MG', '14387659082', 'John Whatson', '06-12-1970', '33234560', 'Baker Street', '00000001', '222');
 
-
 INSERT INTO Bebe
 VALUES('11111', 'M', '01-10-2019', 30.1, 300, 'Sem observações', 'Normal', '31036761827', '84809/SP');
 
@@ -406,10 +405,8 @@ VALUES('11116', 'F', '05-10-2019', 30.1, 300, 'Sem observações', 'Normal', '97
 INSERT INTO Bebe
 VALUES('11117', 'F', '05-10-2019', 30.1, 300, 'Sem observações', 'Cesárea', '97481705860', '108579/SP');
 
-
 INSERT INTO Bebe
 VALUES('11118', 'M', '06-10-2019', 30.1, 300, 'Sem observações', 'Normal', '04383883800', '108579/SP');
-
 
 INSERT INTO Bebe
 VALUES('11119', 'F', '07-10-2019', 30.1, 300, 'Sem observações', 'Cesárea', '80490926827', '51097/SP');
@@ -428,9 +425,6 @@ VALUES('11123', 'M', '11-10-2019', 30.1, 300, 'Sem observações', 'Cesárea', '
 
 INSERT INTO Bebe
 VALUES('11124', 'F', '12-10-2019', 30.1, 300, 'Sem observações', 'Cesárea', '34428971111', '123452/SP');
-
-
-
 
 
 INSERT INTO Especializacao

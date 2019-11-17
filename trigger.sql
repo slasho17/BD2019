@@ -1,13 +1,21 @@
--- ainda nao fiz
-create or replace 
-Trigger MYTRIGGER
-After Insert On Table1
-Referencing Old As "OLD" New As "NEW" 
-For Each Row 
-Begin
-  Declare Counter Int;
-  Select Count(*) From Table2 Where Table2."Email" = :New.U_MAIL  Into Counter;
-  IF Counter < 1 THEN
-    //INSERT Statement here... 
-  END IF;
-End;
+CREATE OR REPLACE FUNCTION mae_plano
+() 
+RETURNS trigger AS $mae_plano$
+
+BEGIN
+  IF NEW.mae_forma_pagamento = 'Plano de saude' AND
+    NEW.mae_plano_de_saude NOTNULL THEN
+  RETURN NEW;
+  ELSE
+  RETURN NULL;
+END
+IF;
+END;
+$mae_plano$ LANGUAGE plpgsql;
+
+CREATE TRIGGER mae_plano BEFORE
+INSERT OR
+UPDATE ON mae
+    FOR EACH ROW
+EXECUTE FUNCTION mae_plano
+();
