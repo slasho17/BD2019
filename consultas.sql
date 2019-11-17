@@ -7,7 +7,7 @@ WHERE q.numero_quarto = h.numero_quarto AND h.data_entrada = <Data entrada>
 
 --REQUISITO 2
 
-SELECT m.mae_nome, count(Bebe)
+SELECT m.mae_nome, count(codigo)
 From Mae m, Bebe b
 WHERE b.mae = m.mae_cpf
 GROUP BY m.mae_cpf
@@ -22,8 +22,9 @@ NOTNULL
 --REQUISITO 4
 
 SELECT m.nome_medico, m.crm
-FROM bebe b, medico m
-WHERE b.medico = m.crm
+FROM medico AS m
+INNER JOIN bebe AS b ON b.medico = m.crm 
+AND b.codigo = <codigo>
 
 --REQUISITO 5
 SELECT b.mae, b.codigo, m.mae_nome 
